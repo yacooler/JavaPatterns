@@ -6,6 +6,9 @@ import composite.Rectangle;
 
 public class ButtonControl extends BaseControlObject {
 
+    public ButtonControl() {
+    }
+
     public ButtonControl(Rectangle bounds, String text) {
         setBounds(bounds);
         setText(text);

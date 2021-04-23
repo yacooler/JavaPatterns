@@ -7,6 +7,10 @@ import composite.Rectangle;
 public class CheckBox extends BaseControlObject {
     protected boolean checked;
 
+    public CheckBox() {
+
+    }
+
     public CheckBox(Rectangle bounds, String text, boolean checked) {
         this.setBounds(bounds);
         this.setText(text);
@@ -26,5 +30,23 @@ public class CheckBox extends BaseControlObject {
 
     public boolean isChecked(){
         return checked;
+    }
+
+    @Override
+    public String serializeObject() {
+        return super.baseSerialize() + ",checked:" + this.checked;
+    }
+
+    @Override
+    public void deserializeObject(String serialized) {
+        String remains = super.baseDeserialize(serialized);
+        String[] param = new String[2];
+        if (!remains.isBlank()) {
+            param[0] = remains.substring(0, remains.indexOf(":"));
+            param[1] = remains.substring(remains.indexOf(":") + 1);
+            if (param[0].equalsIgnoreCase("checked")) {
+                this.checked = param[1].equalsIgnoreCase("true");
+            }
+        }
     }
 }
