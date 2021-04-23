@@ -8,6 +8,9 @@ public class TextControl extends BaseControlObject {
 
     protected boolean password;
 
+    public TextControl() {
+    }
+
     public TextControl(Rectangle bounds, String text) {
         this.setBounds(bounds);
         this.setText(text);
@@ -36,5 +39,23 @@ public class TextControl extends BaseControlObject {
 
     public void setPassword(boolean password) {
         this.password = password;
+    }
+
+    @Override
+    public String serializeObject() {
+        return super.baseSerialize() + ",password:" + this.password;
+    }
+
+    @Override
+    public void deserializeObject(String serialized) {
+        String remains = super.baseDeserialize(serialized);
+        String[] param = new String[2];
+        if (!remains.isBlank()) {
+            param[0] = remains.substring(0, remains.indexOf(":"));
+            param[1] = remains.substring(remains.indexOf(":") + 1);
+            if (param[0].equalsIgnoreCase("password")) {
+                this.password = param[1].equalsIgnoreCase("true");
+            }
+        }
     }
 }
