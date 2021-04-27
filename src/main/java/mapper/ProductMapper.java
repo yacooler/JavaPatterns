@@ -46,7 +46,7 @@ public class ProductMapper implements BaseMapper<Product, Long> {
                 statement.setLong(3, product.getId());
                 statement.executeUpdate();
             } catch (SQLException exception) {
-                throw new RuntimeException("SQL error", exception);
+                throw new RuntimeException("SQL update error", exception);
             }
         }
         return product;
@@ -58,7 +58,7 @@ public class ProductMapper implements BaseMapper<Product, Long> {
             statement.setLong(1, aLong);
             statement.executeUpdate();
         } catch (SQLException exception) {
-            throw new RuntimeException("SQL error", exception);
+            throw new RuntimeException("SQL delete error", exception);
         }
     }
 
