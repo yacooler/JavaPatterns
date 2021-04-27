@@ -25,6 +25,9 @@ public class ProductIdentityMap implements IdentityMap<Product, Long> {
                 productMap.put(aLong, product);
                 return product;
             }
+        } else {
+            System.out.printf("Продукт id=%s найден в кэше!\n", aLong);
+            return product;
         }
         return null;
     }

@@ -26,6 +26,9 @@ public class UserIdentityMap implements IdentityMap<User, Long> {
                 userMap.put(aLong, user);
                 return user;
             }
+        } else {
+            System.out.printf("Пользователь id=%s найден в кэше!\n", aLong);
+            return user;
         }
         return null;
     }

@@ -13,11 +13,11 @@ public class ProductMapper implements BaseMapper<Product, Long> {
 
     @Override
     public Product getById(Long id) {
-        try (PreparedStatement statement = connection.prepareStatement("select name, price from product where id = ?")) {
+        try (PreparedStatement statement = connection.prepareStatement("select title, price from product where id = ?")) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()){
-                return new Product(id, resultSet.getString("name"), resultSet.getBigDecimal("price") );
+                return new Product(id, resultSet.getString("title"), resultSet.getBigDecimal("price") );
             } else {
                 return null;
             }
@@ -31,7 +31,7 @@ public class ProductMapper implements BaseMapper<Product, Long> {
     public Product saveOrUpdate(Product product) {
 
         if (product.getId() == null) {
-            try (PreparedStatement statement = connection.prepareStatement("insert into products(name, price) values (?, ?)")) {
+            try (PreparedStatement statement = connection.prepareStatement("insert into products(title, price) values (?, ?)")) {
                 statement.setString(1, product.getName());
                 statement.setBigDecimal(2, product.getPrice());
                 statement.executeUpdate();
@@ -40,7 +40,7 @@ public class ProductMapper implements BaseMapper<Product, Long> {
                 throw new RuntimeException("SQL insert error", exception);
             }
         } else {
-            try (PreparedStatement statement = connection.prepareStatement("update products set name = ?, price = ? where id = ?")) {
+            try (PreparedStatement statement = connection.prepareStatement("update products set title = ?, price = ? where id = ?")) {
                 statement.setString(1, product.getName());
                 statement.setBigDecimal(2, product.getPrice());
                 statement.setLong(3, product.getId());
@@ -64,7 +64,7 @@ public class ProductMapper implements BaseMapper<Product, Long> {
 
     @Override
     public Product getByName(String name) {
-        try (PreparedStatement statement = connection.prepareStatement("select id, price from product where name = ?")) {
+        try (PreparedStatement statement = connection.prepareStatement("select id, price from product where title = ?")) {
             statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()){

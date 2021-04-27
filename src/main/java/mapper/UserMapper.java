@@ -73,7 +73,7 @@ public class UserMapper implements BaseMapper<User, Long> {
 
     @Override
     public User getByName(String name) {
-        try (PreparedStatement statement = connection.prepareStatement("select id, user_pass, is_active from pattern_user where name = ?")) {
+        try (PreparedStatement statement = connection.prepareStatement("select id, user_pass, is_active from pattern_user where user_name = ?")) {
             statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()){
