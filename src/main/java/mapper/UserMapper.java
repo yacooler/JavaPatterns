@@ -13,7 +13,7 @@ public class UserMapper implements BaseMapper<User, Long> {
     }
 
     @Override
-    public User getById() {
+    public User getById(Long id) {
         return null;
     }
 
