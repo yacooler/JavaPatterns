@@ -17,7 +17,7 @@ public class ProductMapper implements BaseMapper<Product, Long> {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()){
-                return new Product(resultSet.getLong("id"), resultSet.getString("name"), resultSet.getBigDecimal("price") );
+                return new Product(id, resultSet.getString("name"), resultSet.getBigDecimal("price") );
             } else {
                 return null;
             }
@@ -54,11 +54,27 @@ public class ProductMapper implements BaseMapper<Product, Long> {
 
     @Override
     public void deleteById(Long aLong) {
-
+        try (PreparedStatement statement = connection.prepareStatement("delete products where id = ?")) {
+            statement.setLong(1, aLong);
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new RuntimeException("SQL error", exception);
+        }
     }
 
     @Override
     public Product getByName(String name) {
-        return BaseMapper.super.getByName(name);
+        try (PreparedStatement statement = connection.prepareStatement("select id, price from product where name = ?")) {
+            statement.setString(1, name);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()){
+                return new Product(resultSet.getLong("id"), name, resultSet.getBigDecimal("price") );
+            } else {
+                return null;
+            }
+        }
+        catch (SQLException exception) {
+            throw new RuntimeException("SQL select error", exception);
+        }
     }
 }
